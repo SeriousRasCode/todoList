@@ -14,6 +14,7 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  bool isChecked = false; 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -99,7 +100,14 @@ class _HomeState extends State<Home> {
                     ],
                   ),
                   child: ListTile(
-                    leading: Icon(Icons.check_box_outline_blank),
+                    leading: Checkbox(
+                      value: isChecked, 
+                      onChanged: (bool? newValue) { 
+                        setState(() {
+                          isChecked = newValue ?? false; 
+                        });
+                      },
+                    ),
                     title: Text(text),
                     trailing: Icon(Icons.star_border),
                   ),
