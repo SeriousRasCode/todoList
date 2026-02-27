@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'task.dart';
 import 'task_card.dart';
+import 'main.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -18,51 +19,41 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         title: const Text('Todo List'),
         actions: [
-          IconButton(onPressed: () {}, icon: const Icon(Icons.search)),
           IconButton(
-            onPressed: () {},
             icon: const Icon(Icons.nightlight_round),
+            onPressed: () => MyApp.of(context).toggleTheme(),
           ),
         ],
       ),
-
       body: Column(
         children: [
           Padding(
             padding: const EdgeInsets.all(8),
             child: Row(
-              children: [
-                const Text(
+              children: const [
+                Text(
                   'Today',
                   style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-                ),
-                const Spacer(),
-                IconButton(
-                  icon: const Icon(Icons.calendar_today),
-                  onPressed: () {},
-                ),
-                IconButton(
-                  icon: const Icon(Icons.more_horiz),
-                  onPressed: () {},
                 ),
               ],
             ),
           ),
+
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8),
             child: TextField(
               readOnly: true,
               onTap: () async {
-                final result = await Navigator.pushNamed(context, '/add');
+                final result =
+                    await Navigator.pushNamed(context, '/add');
                 if (result != null) {
                   setState(() {
-                    tasks.add(Task(title: result as String));
+                    tasks.add(result as Task);
                   });
                 }
               },
               decoration: InputDecoration(
                 filled: true,
-                fillColor: Colors.grey[200],
                 hintText: 'Add a new task',
                 prefixIcon: const Icon(Icons.add),
                 border: OutlineInputBorder(
@@ -75,29 +66,34 @@ class _HomePageState extends State<HomePage> {
 
           const SizedBox(height: 10),
 
-          // TASK LIST
           Expanded(
-            child: tasks.isEmpty
-                ? const Center(child: Text('No tasks yet'))
-                : ListView.builder(
-                    padding: const EdgeInsets.all(8),
-                    itemCount: tasks.length,
-                    itemBuilder: (context, index) {
-                      return TaskCard(
-                        task: tasks[index],
-                        onChanged: (value) {
-                          setState(() {
-                            tasks[index].isDone = value!;
-                          });
-                        },
-                        onDelete: () {
-                          setState(() {
-                            tasks.removeAt(index);
-                          });
-                        },
-                      );
-                    },
-                  ),
+            child: ListView.builder(
+              padding: const EdgeInsets.all(8),
+              itemCount: tasks.length,
+              itemBuilder: (context, index) {
+                return TaskCard(
+                  task: tasks[index],
+                  onChanged: (v) {
+                    setState(() {
+                      tasks[index].isDone = v!;
+                    });
+                  },
+                  onDelete: () {
+                    setState(() {
+                      tasks.removeAt(index);
+                    });
+                  },
+                  onEdit: () async {
+                    await Navigator.pushNamed(
+                      context,
+                      '/edit',
+                      arguments: tasks[index],
+                    );
+                    setState(() {});
+                  },
+                );
+              },
+            ),
           ),
         ],
       ),
