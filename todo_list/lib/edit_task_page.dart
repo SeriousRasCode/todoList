@@ -10,13 +10,15 @@ class EditTaskPage extends StatefulWidget {
 }
 
 class _EditTaskPageState extends State<EditTaskPage> {
-  late TextEditingController controller;
+  late TextEditingController titleController;
+  late TextEditingController descController;
   late Priority priority;
 
   @override
   void initState() {
     super.initState();
-    controller = TextEditingController(text: widget.task.title);
+    titleController = TextEditingController(text: widget.task.title);
+    descController = TextEditingController(text: widget.task.description);
     priority = widget.task.priority;
   }
 
@@ -29,13 +31,24 @@ class _EditTaskPageState extends State<EditTaskPage> {
         child: Column(
           children: [
             TextField(
-              controller: controller,
+              controller: titleController,
               decoration: const InputDecoration(
-                labelText: 'Task title',
+                labelText: 'Title',
                 border: OutlineInputBorder(),
               ),
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: 12),
+
+            TextField(
+              controller: descController,
+              maxLines: 3,
+              decoration: const InputDecoration(
+                labelText: 'Description',
+                border: OutlineInputBorder(),
+              ),
+            ),
+            const SizedBox(height: 12),
+
             DropdownButton<Priority>(
               value: priority,
               isExpanded: true,
@@ -46,19 +59,20 @@ class _EditTaskPageState extends State<EditTaskPage> {
                 );
               }).toList(),
               onChanged: (v) {
-                setState(() {
-                  priority = v!;
-                });
+                setState(() => priority = v!);
               },
             ),
+
             const SizedBox(height: 20),
+
             ElevatedButton(
               onPressed: () {
-                widget.task.title = controller.text;
+                widget.task.title = titleController.text;
+                widget.task.description = descController.text;
                 widget.task.priority = priority;
                 Navigator.pop(context);
               },
-              child: const Text('Update'),
+              child: const Text('Update Task'),
             ),
           ],
         ),
