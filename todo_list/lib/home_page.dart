@@ -45,3 +45,30 @@ class _HomePageState extends State<HomePage> {
               ],
             ),
           ),
+Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8),
+            child: TextField(
+              readOnly: true,
+              onTap: () async {
+                final result =
+                    await Navigator.pushNamed(context, '/add');
+                if (result != null) {
+                  setState(() {
+                    tasks.add(Task(title: result as String));
+                  });
+                }
+              },
+              decoration: InputDecoration(
+                filled: true,
+                fillColor: Colors.grey[200],
+                hintText: 'Add a new task',
+                prefixIcon: const Icon(Icons.add),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(8),
+                  borderSide: BorderSide.none,
+                ),
+              ),
+            ),
+          ),
+
+          const SizedBox(height: 10),
