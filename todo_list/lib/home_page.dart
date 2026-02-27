@@ -23,3 +23,25 @@ class _HomePageState extends State<HomePage> {
         ],
       ),
   
+  body: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(8),
+            child: Row(
+              children: [
+                const Text(
+                  'Today',
+                  style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                ),
+                const Spacer(),
+                IconButton(
+                  icon: const Icon(Icons.calendar_today),
+                  onPressed: () {},
+                ),
+                IconButton(
+                  icon: const Icon(Icons.more_horiz),
+                  onPressed: () {},
+                ),
+              ],
+            ),
+          ),
