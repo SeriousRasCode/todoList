@@ -15,7 +15,7 @@ class TaskCard extends StatelessWidget {
     required this.onEdit,
   });
 
-  Color getPriorityColor() {
+  Color priorityColor() {
     switch (task.priority) {
       case Priority.high:
         return Colors.red;
@@ -28,21 +28,13 @@ class TaskCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return Card(
       margin: const EdgeInsets.only(bottom: 10),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(8),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey.withOpacity(0.3),
-            blurRadius: 5,
-            offset: const Offset(0, 3),
-          ),
-        ],
-      ),
       child: ListTile(
-        tileColor: Theme.of(context).cardColor,
-        leading: Checkbox(value: task.isDone, onChanged: onChanged),
+        leading: Checkbox(
+          value: task.isDone,
+          onChanged: onChanged,
+        ),
         title: Text(
           task.title,
           style: TextStyle(
@@ -50,9 +42,17 @@ class TaskCard extends StatelessWidget {
                 task.isDone ? TextDecoration.lineThrough : null,
           ),
         ),
-        subtitle: Text(
-          task.priority.name.toUpperCase(),
-          style: TextStyle(color: getPriorityColor()),
+        subtitle: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            if (task.description.isNotEmpty)
+              Text(task.description),
+            const SizedBox(height: 4),
+            Text(
+              task.priority.name.toUpperCase(),
+              style: TextStyle(color: priorityColor()),
+            ),
+          ],
         ),
         trailing: Wrap(
           children: [
