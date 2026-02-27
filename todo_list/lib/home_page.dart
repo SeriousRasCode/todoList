@@ -19,11 +19,14 @@ class _HomePageState extends State<HomePage> {
         title: const Text('Todo List'),
         actions: [
           IconButton(onPressed: () {}, icon: const Icon(Icons.search)),
-          IconButton(onPressed: () {}, icon: const Icon(Icons.nightlight_round)),
+          IconButton(
+            onPressed: () {},
+            icon: const Icon(Icons.nightlight_round),
+          ),
         ],
       ),
-  
-  body: Column(
+
+      body: Column(
         children: [
           Padding(
             padding: const EdgeInsets.all(8),
@@ -45,13 +48,12 @@ class _HomePageState extends State<HomePage> {
               ],
             ),
           ),
-Padding(
+          Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8),
             child: TextField(
               readOnly: true,
               onTap: () async {
-                final result =
-                    await Navigator.pushNamed(context, '/add');
+                final result = await Navigator.pushNamed(context, '/add');
                 if (result != null) {
                   setState(() {
                     tasks.add(Task(title: result as String));
@@ -73,7 +75,7 @@ Padding(
 
           const SizedBox(height: 10),
 
-// TASK LIST
+          // TASK LIST
           Expanded(
             child: tasks.isEmpty
                 ? const Center(child: Text('No tasks yet'))
@@ -101,4 +103,4 @@ Padding(
       ),
     );
   }
-} 
+}
