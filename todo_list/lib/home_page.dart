@@ -72,3 +72,33 @@ Padding(
           ),
 
           const SizedBox(height: 10),
+
+// TASK LIST
+          Expanded(
+            child: tasks.isEmpty
+                ? const Center(child: Text('No tasks yet'))
+                : ListView.builder(
+                    padding: const EdgeInsets.all(8),
+                    itemCount: tasks.length,
+                    itemBuilder: (context, index) {
+                      return TaskCard(
+                        task: tasks[index],
+                        onChanged: (value) {
+                          setState(() {
+                            tasks[index].isDone = value!;
+                          });
+                        },
+                        onDelete: () {
+                          setState(() {
+                            tasks.removeAt(index);
+                          });
+                        },
+                      );
+                    },
+                  ),
+          ),
+        ],
+      ),
+    );
+  }
+} 
