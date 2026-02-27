@@ -9,7 +9,8 @@ class AddTaskPage extends StatefulWidget {
 }
 
 class _AddTaskPageState extends State<AddTaskPage> {
-  final controller = TextEditingController();
+  final titleController = TextEditingController();
+  final descController = TextEditingController();
   Priority priority = Priority.medium;
 
   @override
@@ -21,13 +22,24 @@ class _AddTaskPageState extends State<AddTaskPage> {
         child: Column(
           children: [
             TextField(
-              controller: controller,
+              controller: titleController,
               decoration: const InputDecoration(
-                labelText: 'Task title',
+                labelText: 'Title',
                 border: OutlineInputBorder(),
               ),
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: 12),
+
+            TextField(
+              controller: descController,
+              maxLines: 3,
+              decoration: const InputDecoration(
+                labelText: 'Description (optional)',
+                border: OutlineInputBorder(),
+              ),
+            ),
+            const SizedBox(height: 12),
+
             DropdownButton<Priority>(
               value: priority,
               isExpanded: true,
@@ -38,22 +50,26 @@ class _AddTaskPageState extends State<AddTaskPage> {
                 );
               }).toList(),
               onChanged: (v) {
-                setState(() {
-                  priority = v!;
-                });
+                setState(() => priority = v!);
               },
             ),
+
             const SizedBox(height: 20),
+
             ElevatedButton(
               onPressed: () {
-                if (controller.text.isNotEmpty) {
+                if (titleController.text.isNotEmpty) {
                   Navigator.pop(
                     context,
-                    Task(title: controller.text, priority: priority),
+                    Task(
+                      title: titleController.text,
+                      description: descController.text,
+                      priority: priority,
+                    ),
                   );
                 }
               },
-              child: const Text('Save'),
+              child: const Text('Save Task'),
             ),
           ],
         ),
